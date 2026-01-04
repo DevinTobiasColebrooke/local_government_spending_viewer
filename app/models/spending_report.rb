@@ -11,15 +11,29 @@ class SpendingReport < ApplicationRecord
     where("description ILIKE ? OR agency_name ILIKE ?", "%#{query}%", "%#{query}%")
   }
 
-  # Wrapper for semantic search
-  def self.semantic_search(query_text)
-    # This requires the EmbeddingService to be active (Phase 3)
-    # For Phase 1, we just define the structure.
-    return none if query_text.blank?
+  # Combine keyword search and semantic search
+  def self.search_for(query)
+    return all.order(transaction_date: :desc).limit(50) if query.blank?
 
-    # Placeholder: In Phase 3, we generate the vector here.
-    # vector = EmbeddingService.generate(query_text)
-    # nearest_neighbors(:embedding, vector, distance: "cosine")
-    none
+    # 1. Start with keyword search
+    results = where("description ILIKE ? OR agency_name ILIKE ?", "%#{query}%", "%#{query}%")
+
+    # 2. Try to generate a vector for semantic search
+    # If the AI service is up, this usually provides better results for concepts
+    query_vector = EmbeddingService.generate(query)
+
+    if query_vector
+      # Use pgvector nearest neighbor search
+      # This finds records conceptually similar even if keywords don't match exactly
+      semantic_results = nearest_neighbors(:embedding, query_vector, distance: "cosine")
+      results = semantic_results
+    end
+
+    results.limit(50)
+  end
+
+  # Wrapper for semantic search (kept for compatibility with docs, mapped to search_for)
+  def self.semantic_search(query_text)
+    search_for(query_text)
   end
 end
