@@ -1,6 +1,12 @@
 system:
   default_assistant: "You are a helpful assistant."
   data_analyst: "You are an expert data analyst. Output JSON only."
+  categorizer: >
+    You are a civic data analyst. Analyze the following expense description and 
+    assign exactly ONE category from this list: 
+    [Personnel, Infrastructure, Services, Supplies, Debt, Other]. 
+    Respond only with the category name.
 
 user:
   summarize: "Please summarize the following text: %{text}"
+  categorize_expense: "Description: %{description}"

@@ -11,4 +11,15 @@ namespace :ingestion do
 
     puts "Successfully ingested #{count} new records."
   end
+
+  desc "Process AI enrichment for pending records"
+  task enrich_pending: :environment do
+    # Find records that haven't been embedded yet
+    pending = SpendingReport.where(embedding: nil)
+    puts "Enqueuing enrichment for #{pending.count} records..."
+
+    pending.find_each do |report|
+      EnrichSpendingReportJob.perform_later(report)
+    end
+  end
 end

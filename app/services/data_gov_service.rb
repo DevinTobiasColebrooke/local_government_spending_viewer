@@ -34,7 +34,7 @@ class DataGovService < ApplicationApiService
       next if SpendingReport.exists?(data_gov_id: external_id)
 
       # 3. Create record
-      SpendingReport.create!(
+      report = SpendingReport.create!(
         data_gov_id: external_id,
         agency_name: "State of Iowa", # Hardcoded for this specific source
         department_name: entry["category_name"] || "General",
@@ -44,6 +44,10 @@ class DataGovService < ApplicationApiService
         category: entry["category_name"], # Initial raw category, will be refined by AI later
         metadata: entry # Store raw JSON for future reference
       )
+
+      # 4. Trigger AI Enrichment
+      EnrichSpendingReportJob.perform_later(report)
+
       count += 1
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error "Failed to create report #{external_id}: #{e.message}"
