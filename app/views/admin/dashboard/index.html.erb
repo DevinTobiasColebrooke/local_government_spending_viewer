@@ -1,0 +1,8 @@
+<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-gray-500 uppercase text-xs font-bold">Total Users</h2>
+    <p class="text-3xl font-bold"><%= User.count rescue 0 %></p>
+  </div>
+  <!-- Add more cards here -->
+</div>

@@ -1,0 +1,6 @@
+system:
+  default_assistant: "You are a helpful assistant."
+  data_analyst: "You are an expert data analyst. Output JSON only."
+
+user:
+  summarize: "Please summarize the following text: %{text}"

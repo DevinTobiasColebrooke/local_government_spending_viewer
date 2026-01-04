@@ -1,0 +1,10 @@
+default:
+  primary: "#4F46E5"   # Indigo 600
+  secondary: "#10B981" # Emerald 500
+  background: "#F3F4F6"
+  text: "#1F2937"
+dark:
+  primary: "#818CF8"
+  secondary: "#34D399"
+  background: "#111827"
+  text: "#F9FAFB"
