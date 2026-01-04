@@ -3,15 +3,15 @@ Rails.application.routes.draw do
       root to: "dashboard#index"
     end
 
-  # Main entry point for the search interface
-  resources :spending_reports, only: [ :index ]
+  # Enable both index and show actions
+  resources :spending_reports, only: [ :index, :show ]
   root "spending_reports#index"
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Development-only route to trigger data ingestion via the UI
+  if Rails.env.development?
+    post "ingestion/fetch", to: "ingestion#fetch", as: :ingestion_fetch
+  end
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  get "up" => "rails/health#show", as: :rails_health_check
 end

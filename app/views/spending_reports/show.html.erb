@@ -1,0 +1,129 @@
+<div class="max-w-4xl mx-auto py-10 px-4">
+  <!-- Back Link -->
+  <div class="mb-6">
+    <%= link_to spending_reports_path, class: "text-indigo-600 hover:text-indigo-800 flex items-center" do %>
+      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+      Back to Search
+    <% end %>
+  </div>
+
+  <!-- Main Header Card -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-start bg-gray-50 border-b border-gray-200">
+      <div>
+        <h3 class="text-2xl leading-6 font-bold text-gray-900"><%= @report.description %></h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          <%= @report.agency_name %> 
+          <% if @report.department_name.present? %>
+             &bull; <%= @report.department_name %>
+          <% end %>
+        </p>
+      </div>
+      <div class="text-right">
+        <p class="text-3xl font-extrabold text-indigo-600"><%= number_to_currency(@report.amount) %></p>
+        <p class="text-sm text-gray-500"><%= @report.transaction_date.strftime("%B %d, %Y") %></p>
+      </div>
+    </div>
+    
+    <!-- Core Details -->
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <dl class="sm:divide-y sm:divide-gray-200">
+        
+        <!-- Category -->
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Category</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <span class="px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+              <%= @report.category %>
+            </span>
+            <span class="ml-2 text-xs text-gray-400">(Code: <%= @meta["category"] %>)</span>
+          </dd>
+        </div>
+
+        <!-- Vendor Information -->
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Vendor</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <div class="font-medium"><%= @meta["vendor_name"] %></div>
+            <div class="text-gray-500 text-xs">Vendor #<%= @meta["vendor_no"] %></div>
+          </dd>
+        </div>
+
+        <!-- Store / Location Information -->
+        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Store / Location</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <div class="font-medium"><%= @meta["name"] %> (Store #<%= @meta["store"] %>)</div>
+            <div><%= @meta["address"] %></div>
+            <div><%= @meta["city"] %>, <%= @meta["zipcode"] %></div>
+            <div class="text-gray-500 text-xs mt-1"><%= @meta["county"] %> County</div>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Product & Sales Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <!-- Product Specs -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Product Specifications</h3>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="divide-y divide-gray-200">
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Item Number</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @meta["itemno"] %></dd>
+          </div>
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Bottle Volume</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @meta["bottle_volume_ml"] %> ml</dd>
+          </div>
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Pack Size</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @meta["pack"] %></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Sales Breakdown -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Transaction Details</h3>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="divide-y divide-gray-200">
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Bottles Sold</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @meta["sale_bottles"] %></dd>
+          </div>
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Volume Sold</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= @meta["sale_liters"] %> Liters / <%= @meta["sale_gallons"] %> Gallons
+            </dd>
+          </div>
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">State Bottle Cost</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= number_to_currency(@meta["state_bottle_cost"]) %>
+            </dd>
+          </div>
+          <div class="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">State Bottle Retail</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <%= number_to_currency(@meta["state_bottle_retail"]) %>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mt-8 text-xs text-gray-400 text-center">
+    Data ID: <%= @report.data_gov_id %> | Ingested: <%= @report.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+  </div>
+</div>

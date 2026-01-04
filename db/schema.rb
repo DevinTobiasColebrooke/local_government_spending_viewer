@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_04_014309) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_04_020142) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -79,8 +79,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_04_014309) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agency_name"], name: "index_spending_reports_on_agency_name"
+    t.index ["category", "transaction_date"], name: "index_spending_reports_on_category_and_transaction_date"
     t.index ["category"], name: "index_spending_reports_on_category"
     t.index ["data_gov_id"], name: "index_spending_reports_on_data_gov_id", unique: true
     t.index ["department_name"], name: "index_spending_reports_on_department_name"
+    t.index ["transaction_date"], name: "index_spending_reports_on_transaction_date"
   end
 end

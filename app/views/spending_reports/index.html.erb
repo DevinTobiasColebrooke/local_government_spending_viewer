@@ -22,8 +22,7 @@
     <% end %>
   </div>
 
-  <!-- Turbo Frame for Results -->
-  <%= turbo_frame_tag "spending_results" do %>
-    <%= render "reports_list", reports: @reports %>
-  <% end %>
+  <!-- Turbo Frame Results -->
+  <!-- The frame tag is now inside the partial to ensure it persists during updates -->
+  <%= render "reports_list", reports: @reports %>
 </div>

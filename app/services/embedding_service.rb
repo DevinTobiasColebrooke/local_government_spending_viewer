@@ -25,8 +25,13 @@ class EmbeddingService
 
     json = JSON.parse(response.body)
 
-    # Handle various response formats from different server versions
-    # Standard OpenAI format vs Raw format
+    # Handle different response formats:
+    # 1. Raw Array: [0.123, 0.456, ...] (Common in some llama.cpp setups)
+    if json.is_a?(Array)
+      return json.flatten.map(&:to_f)
+    end
+
+    # 2. Standard JSON Object: {"embedding": [...]} or {"data": [{"embedding": ...}]}
     (json["embedding"] || json.dig("data", 0, "embedding"))&.flatten&.map(&:to_f)
   rescue => e
     Rails.logger.error "Local Embedding Error: #{e.message}"
