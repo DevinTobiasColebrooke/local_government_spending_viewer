@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_04_003630) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_04_014309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -64,5 +64,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_04_003630) do
     t.jsonb "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "spending_reports", force: :cascade do |t|
+    t.string "data_gov_id"
+    t.string "agency_name"
+    t.string "department_name"
+    t.text "description"
+    t.decimal "amount", precision: 15, scale: 2
+    t.date "transaction_date"
+    t.string "category"
+    t.jsonb "metadata"
+    t.vector "embedding", limit: 768
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agency_name"], name: "index_spending_reports_on_agency_name"
+    t.index ["category"], name: "index_spending_reports_on_category"
+    t.index ["data_gov_id"], name: "index_spending_reports_on_data_gov_id", unique: true
+    t.index ["department_name"], name: "index_spending_reports_on_department_name"
   end
 end
