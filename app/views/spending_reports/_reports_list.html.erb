@@ -49,4 +49,10 @@
       </div>
     <% end %>
   </div>
+
+  <% if defined?(pagy) && pagy && pagy.pages > 1 %>
+    <div class="mt-6 flex justify-center text-sm text-gray-600">
+      <%== pagy.series_nav %>
+    </div>
+  <% end %>
 <% end %>

@@ -275,6 +275,9 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     ostruct (0.6.3)
+    pagy (43.2.2)
+      json
+      yaml
     parallel (1.27.0)
     parser (3.3.10.0)
       ast (~> 2.4.1)
@@ -491,6 +494,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml (0.4.0)
     zeitwerk (2.7.4)
 
 PLATFORMS
@@ -521,6 +525,7 @@ DEPENDENCIES
   letter_opener (~> 1.10)
   letter_opener_web (~> 3.0)
   neighbor (~> 0.6.0)
+  pagy (~> 43.2)
   parallel (~> 1.27)
   pg (~> 1.1)
   pg_query

@@ -7,11 +7,13 @@ class SpendingReportsController < ApplicationController
       ahoy.track "Search", query: @query
     end
 
-    @reports = SpendingReport.search_for(@query)
+    # Use pagy for pagination
+    # @reports = SpendingReport.search_for(@query)
+    @pagy, @reports = pagy(:offset, SpendingReport.search_for(@query))
 
     # Respond to Turbo Frame requests by rendering only the partial
     if turbo_frame_request?
-      render partial: "reports_list", locals: { reports: @reports }
+      render partial: "reports_list", locals: { reports: @reports, pagy: @pagy }
     else
       render :index
     end
